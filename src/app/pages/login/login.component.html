@@ -1,1 +1,50 @@
-<p>login works!</p>
+<div class="login-card">
+  <h1>Sign in</h1>
+
+  <form [formGroup]="form" (ngSubmit)="submit()">
+    <label>
+      <span>Email</span>
+      <input
+        type="email"
+        placeholder="you@example.com"
+        formControlName="email"
+        [class.invalid]="email?.invalid && (email?.touched || email?.dirty)"
+        autocomplete="email"
+      />
+      <small class="error" *ngIf="email?.hasError('required') && (email?.touched || email?.dirty)">
+        Email is required
+      </small>
+      <small class="error" *ngIf="email?.hasError('email') && (email?.touched || email?.dirty)">
+        Enter a valid email
+      </small>
+    </label>
+
+    <label>
+      <span>Password</span>
+      <input
+        type="password"
+        placeholder="••••••••"
+        formControlName="password"
+        [class.invalid]="password?.invalid && (password?.touched || password?.dirty)"
+        autocomplete="current-password"
+      />
+      <small class="error" *ngIf="password?.hasError('required') && (password?.touched || password?.dirty)">
+        Password is required
+      </small>
+      <small class="error" *ngIf="password?.hasError('minlength') && (password?.touched || password?.dirty)">
+        Must be at least 6 characters
+      </small>
+    </label>
+
+    <button type="submit" [disabled]="loading || form.invalid">
+      {{ loading ? 'Signing in…' : 'Sign in' }}
+    </button>
+
+    <p class="server-msg success" *ngIf="serverSuccess">{{ serverSuccess }}</p>
+    <p class="server-msg error" *ngIf="serverError">{{ serverError }}</p>
+  </form>
+
+  <p class="hint">
+    Demo: <code>eve.holt@reqres.in</code> / any password (≥ 6 chars)
+  </p>
+</div>
